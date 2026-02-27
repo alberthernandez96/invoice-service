@@ -26,8 +26,8 @@ jobs:
 
     # Permissions needed for this job
     permissions:
-      contents: read    # Read repository code
-      packages: write   # Push images to GitHub Container Registry
+      contents: read # Read repository code
+      packages: write # Push images to GitHub Container Registry
 
     # Steps are executed sequentially
     steps:
@@ -44,9 +44,9 @@ jobs:
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}                    # ghcr.io
-          username: ${{ github.actor }}                    # Your GitHub username
-          password: ${{ secrets.NPM_TOKEN }}            # Auto-generated GitHub token
+          registry: ${{ env.REGISTRY }} # ghcr.io
+          username: ${{ github.actor }} # Your GitHub username
+          password: ${{ secrets.NPM_TOKEN }} # Auto-generated GitHub token
 
       # Step 4: Generate Docker image tags
       # Tags help identify different versions of the image
@@ -64,10 +64,10 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .                                       # Build context (current directory)
-          push: true                                       # Push image to registry after building
-          tags: ${{ steps.meta.outputs.tags }}            # Use tags from previous step
-          labels: ${{ steps.meta.outputs.labels }}        # Use metadata labels
+          context: . # Build context (current directory)
+          push: true # Push image to registry after build
+          tags: ${{ steps.meta.outputs.tags }} # Use tags from previous step
+          labels: ${{ steps.meta.outputs.labels }} # Add metadata labels
           build-args: |
             # Pass GitHub token to Dockerfile for installing private npm packages
             NPM_TOKEN=${{ secrets.NPM_TOKEN }}
@@ -105,7 +105,7 @@ jobs:
           key: ${{ secrets.VULTR_SSH_KEY }}
           port: ${{ vars.VULTR_PORT }}
           script: |
-            # Export database environment variables (para el service, no levantamos Postgres)
+            # Export database environment variables (optional, when invoice-service uses DB)
             export DB_USER=${{ vars.DB_USER }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export DB_NAME=invoice-service
@@ -134,7 +134,7 @@ jobs:
             docker compose down --remove-orphans || true
             docker network prune -f || true
 
-            # Levantar solo el invoice-service sin dependencias (evita levantar Postgres)
+            # Levantar solo el invoice-service sin dependencias
             docker compose up -d --no-deps invoice-service
 
             # Ver contenedores activos
