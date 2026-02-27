@@ -1,0 +1,7 @@
+# Dependencias
+node_modules/
+
+# Builds / bundles
+dist/
+build/
+.env

@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Scrape Prometheus itself
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Scrape quote-service metrics
+  - job_name: "quote-service"
+    static_configs:
+      - targets: ["host.docker.internal:3004"]
+    metrics_path: "/metrics"
+    scrape_interval: 10s
+
+  # Scrape product-service metrics
+  - job_name: "product-service"
+    static_configs:
+      - targets: ["host.docker.internal:3005"]
+    metrics_path: "/metrics"
+    scrape_interval: 10s
+
+  # Scrape invoice-service metrics
+  - job_name: "invoice-service"
+    static_configs:
+      - targets: ["host.docker.internal:3007"]
+    metrics_path: "/metrics"
+    scrape_interval: 10s

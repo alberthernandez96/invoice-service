@@ -1,0 +1,30 @@
+services:
+  invoice-service:
+    image: ${IMAGE}
+    container_name: invoice-service
+    restart: unless-stopped
+    ports:
+      - "3007:3007"
+    environment:
+      NODE_ENV: production
+      PORT: 3007
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/invoice-service
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: invoice-service
+      DB_POOL_MAX: ${DB_POOL_MAX:-20}
+      DB_POOL_IDLE_TIMEOUT: ${DB_POOL_IDLE_TIMEOUT:-30000}
+      DB_POOL_CONNECTION_TIMEOUT: ${DB_POOL_CONNECTION_TIMEOUT:-2000}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - invoice-service-network
+    build:
+      context: .
+      args:
+        NPM_TOKEN: ${NPM_TOKEN}
+
+networks:
+  invoice-service-network:
+    driver: bridge
