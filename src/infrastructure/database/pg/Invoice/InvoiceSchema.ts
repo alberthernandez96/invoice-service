@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS invoices (
   id INTEGER PRIMARY KEY,
   client_id VARCHAR(20) NOT NULL,
   status VARCHAR(50),
-  total NUMERIC(12,2),
   vat NUMERIC(5,2),
   date_init TIMESTAMPTZ,
   date_end TIMESTAMPTZ,

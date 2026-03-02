@@ -11,7 +11,7 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@albertoficial/api-contracts": "1.0.45",
+    "@albertoficial/api-contracts": "1.0.46",
     "@albertoficial/backend-shared": "1.0.1",
     "@albertoficial/observability-shared": "^1.0.7",
     "@albertoficial/postgres-shared": "1.0.1",

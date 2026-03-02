@@ -4,7 +4,7 @@ const invoiceLineSchema = z.object({
   id: z.string().uuid("Invalid line ID"),
   type: z.string().min(1, "Type is required").max(50, "Type is too long"),
   comment: z.string().max(500).optional(),
-  productId: z.string().uuid("Invalid product ID"),
+  productId: z.string().uuid("Invalid product ID").optional(),
   quantity: z.number().int().min(1, "Quantity must be at least 1"),
   unitPrice: z.number().nonnegative("Unit price must be zero or positive"),
 });
