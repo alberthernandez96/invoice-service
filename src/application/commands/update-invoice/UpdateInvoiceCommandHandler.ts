@@ -13,6 +13,8 @@ export class UpdateInvoiceCommandHandler implements CommandHandler<UpdateInvoice
       }
 
       const state = InvoiceDtoMapper.fromDto(cmd.data);
+      state.invoiceNumber = existing.getInvoiceNumber();
+      state.invoiceYear = existing.getInvoiceYear();
       state.updatedBy = cmd.updatedBy;
 
       const invoice = InvoiceEntity.rehydrate(state);

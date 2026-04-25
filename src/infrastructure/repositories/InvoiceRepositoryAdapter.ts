@@ -16,6 +16,10 @@ export class InvoiceRepositoryAdapter implements IInvoiceRepository {
     return record ? InvoiceDomainMapper.fromDatabase(record) : null;
   }
 
+  async getNextId(): Promise<number> {
+    return this.postgresRepo.getNextId();
+  }
+
   async save(invoice: InvoiceEntity): Promise<number> {
     const invoiceRecord = InvoiceDomainMapper.toDatabase(invoice);
     return await this.postgresRepo.save(invoiceRecord);

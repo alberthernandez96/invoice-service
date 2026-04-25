@@ -22,6 +22,14 @@ export class InvoiceEntity {
     return this.state.id;
   }
 
+  getInvoiceNumber(): number {
+    return this.state.invoiceNumber;
+  }
+
+  getInvoiceYear(): number {
+    return this.state.invoiceYear;
+  }
+
   getClientId(): string {
     return this.state.clientId;
   }

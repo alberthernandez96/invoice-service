@@ -9,6 +9,8 @@ export interface InvoiceRecordWithLines extends InvoiceRecord {
 
 const INVOICE_COLUMNS = [
   "id",
+  "invoice_number",
+  "invoice_year",
   "client_id",
   "status",
   "vat",
@@ -46,6 +48,13 @@ export class InvoiceRepository {
     if (!invoice?.id) return null;
     const lines = await this.lineRepo.findByInvoiceId(invoice.id);
     return { ...invoice, lines };
+  }
+
+  async getNextId(): Promise<number> {
+    const result = await this.pool.query(
+      `SELECT COALESCE(MAX(id), 0)::int + 1 AS next_id FROM ${this.tableName}`,
+    );
+    return (result.rows[0] as { next_id: number }).next_id;
   }
 
   async findLastRegistry(): Promise<InvoiceRecordWithLines | null> {

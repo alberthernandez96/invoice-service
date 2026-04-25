@@ -9,6 +9,8 @@ export class InvoiceDomainMapper {
   static toDatabase(entity: InvoiceEntity): InvoiceRecordWithLines {
     return {
       id: entity.getId(),
+      invoice_number: entity.getInvoiceNumber(),
+      invoice_year: entity.getInvoiceYear(),
       client_id: entity.getClientId(),
       status: entity.getStatus(),
       vat: entity.getVat(),
@@ -41,6 +43,8 @@ export class InvoiceDomainMapper {
   static fromDatabase(record: InvoiceRecordWithLines): InvoiceEntity {
     const state: InvoiceEntityState = {
       id: record.id,
+      invoiceNumber: record.invoice_number,
+      invoiceYear: record.invoice_year,
       status: record.status,
       vat: record.vat,
       clientId: record.client_id,

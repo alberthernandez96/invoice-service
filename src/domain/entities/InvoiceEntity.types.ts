@@ -11,6 +11,8 @@ const invoiceLineSchema = z.object({
 
 const InvoiceSchema = z.object({
   id: z.number().int().min(1, "Invoice ID must be at least 1"),
+  invoiceNumber: z.number().int().min(1, "Invoice number must be at least 1"),
+  invoiceYear: z.number().int().min(1900, "Invoice year is invalid"),
   clientId: z
     .string()
     .min(1, "Client ID is required")

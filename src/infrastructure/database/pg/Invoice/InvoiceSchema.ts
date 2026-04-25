@@ -1,6 +1,8 @@
 export const INVOICE_SCHEMA = `
 CREATE TABLE IF NOT EXISTS invoices (
   id INTEGER PRIMARY KEY,
+  invoice_number INTEGER NOT NULL,
+  invoice_year INTEGER NOT NULL,
   client_id VARCHAR(20) NOT NULL,
   status VARCHAR(50),
   vat NUMERIC(5,2),
@@ -20,6 +22,8 @@ CREATE TABLE IF NOT EXISTS invoices (
   updated_by VARCHAR(255)
 );
 CREATE INDEX IF NOT EXISTS idx_invoices_id ON invoices (id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_invoices_invoice_number_year_unique
+  ON invoices (invoice_number, invoice_year);
 CREATE INDEX IF NOT EXISTS idx_invoices_client_id ON invoices (client_id);
 CREATE INDEX IF NOT EXISTS idx_invoices_created_at ON invoices (created_at DESC);
 `;

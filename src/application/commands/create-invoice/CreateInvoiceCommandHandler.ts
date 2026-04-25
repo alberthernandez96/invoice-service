@@ -8,6 +8,10 @@ export class CreateInvoiceCommandHandler implements CommandHandler<CreateInvoice
   async handle(command: CreateInvoiceCommand): Promise<unknown> {
     return command.executeWithTracing(async (cmd) => {
       const props = InvoiceDtoMapper.fromDto(cmd.data);
+      const existing = await this.invoiceRepository.findById(props.id);
+      if (existing) {
+        props.id = await this.invoiceRepository.getNextId();
+      }
       const invoice = InvoiceEntity.create(props);
       const invoiceId = await this.invoiceRepository.save(invoice);
 

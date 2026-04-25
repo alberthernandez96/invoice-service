@@ -1,5 +1,7 @@
 export interface InvoiceRecord {
   id: number;
+  invoice_number: number;
+  invoice_year: number;
   client_id: string;
   status: string;
   vat: number;

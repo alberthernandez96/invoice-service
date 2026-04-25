@@ -6,8 +6,13 @@ import type { InvoiceEntity, InvoiceEntityState } from "@domain";
 
 export class InvoiceDtoMapper {
   static fromDto(dto: InvoiceRequestDTO): InvoiceEntityState {
+    const fallbackDate = dto.dateInit ?? dto.createdAt ?? new Date().toISOString();
+    const fallbackYear = new Date(fallbackDate).getUTCFullYear();
+
     return {
       id: dto.id,
+      invoiceNumber: dto.id,
+      invoiceYear: fallbackYear,
       clientId: dto.clientId,
       status: dto.status,
       vat: dto.vat,
