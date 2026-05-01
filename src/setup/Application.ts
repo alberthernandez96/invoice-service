@@ -10,7 +10,7 @@ import {
 import {
   getInvoiceParamsSchema,
   InvoiceRoutes,
-  invoiceSchema,
+  invoiceRequestSchema,
 } from '@albertoficial/api-contracts';
 import {
   CreateInvoiceCommand,
@@ -70,7 +70,7 @@ export class Application {
     this.app.post(
       InvoiceRoutes.create,
       AuthMiddleware.authenticate(),
-      ValidationMiddleware.validateBody(invoiceSchema),
+      ValidationMiddleware.validateBody(invoiceRequestSchema),
       (req, res) => invoiceCommandController.create(req, res)
     );
     this.app.get(InvoiceRoutes.getLastRegistry, (req, res) => invoiceQueryController.getLastRegistry(req, res));
@@ -84,7 +84,7 @@ export class Application {
       InvoiceRoutes.update,
       AuthMiddleware.authenticate(),
       ValidationMiddleware.validateParams(getInvoiceParamsSchema),
-      ValidationMiddleware.validateBody(invoiceSchema),
+      ValidationMiddleware.validateBody(invoiceRequestSchema),
       (req, res) => invoiceCommandController.update(req, res)
     );
   }
