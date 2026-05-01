@@ -60,7 +60,11 @@ export class InvoiceRepository {
   async findLastRegistry(): Promise<InvoiceRecordWithLines | null> {
     const cols = this.columns.join(", ");
     const result = await this.pool.query(
-      `SELECT ${cols} FROM ${this.tableName} ORDER BY created_at DESC LIMIT 1`,
+      `SELECT ${cols}
+       FROM ${this.tableName}
+       WHERE invoice_year = EXTRACT(YEAR FROM CURRENT_DATE)::int
+       ORDER BY invoice_number DESC, created_at DESC
+       LIMIT 1`,
     );
     const invoice = result.rows[0] as InvoiceRecord | undefined;
     if (!invoice?.id) return null;
