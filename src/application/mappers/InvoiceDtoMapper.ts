@@ -42,6 +42,8 @@ export class InvoiceDtoMapper {
   static toDto(entity: InvoiceEntity): InvoiceResponseDTO {
     return {
       id: entity.getId(),
+      invoiceNumber: entity.getInvoiceNumber(),
+      invoiceYear: entity.getInvoiceYear(),
       clientId: entity.getClientId(),
       lines: entity.getLines(),
       status: entity.getStatus(),
