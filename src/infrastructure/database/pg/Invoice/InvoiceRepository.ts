@@ -63,7 +63,7 @@ export class InvoiceRepository {
       `SELECT ${cols}
        FROM ${this.tableName}
        WHERE invoice_year = EXTRACT(YEAR FROM CURRENT_DATE)::int
-       ORDER BY invoice_number DESC, created_at DESC
+       ORDER BY invoice_year DESC, invoice_number DESC
        LIMIT 1`,
     );
     const invoice = result.rows[0] as InvoiceRecord | undefined;
