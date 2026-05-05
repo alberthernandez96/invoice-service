@@ -9,6 +9,7 @@ import {
 } from '@albertoficial/backend-shared';
 import {
   getInvoiceParamsSchema,
+  getInvoiceByBusinessKeyParamsSchema,
   InvoiceRoutes,
   invoiceRequestSchema,
 } from '@albertoficial/api-contracts';
@@ -21,6 +22,8 @@ import {
   GetLastRegistryQueryHandler,
   GetInvoiceQuery,
   GetInvoiceQueryHandler,
+  GetInvoiceByBusinessKeyQuery,
+  GetInvoiceByBusinessKeyQueryHandler,
   GetInvoiceListQuery,
   GetInvoiceListQueryHandler,
 } from '@application';
@@ -60,6 +63,7 @@ export class Application {
     ]);
     queryBus.registerMany([
       { type: GetInvoiceQuery, handler: new GetInvoiceQueryHandler(invoiceRepositoryAdapter) },
+      { type: GetInvoiceByBusinessKeyQuery, handler: new GetInvoiceByBusinessKeyQueryHandler(invoiceRepositoryAdapter) },
       { type: GetLastRegistryQuery, handler: new GetLastRegistryQueryHandler(invoiceRepositoryAdapter) },
       { type: GetInvoiceListQuery, handler: new GetInvoiceListQueryHandler(invoiceRepositoryAdapter) },
     ]);
@@ -78,6 +82,11 @@ export class Application {
       InvoiceRoutes.get,
       ValidationMiddleware.validateParams(getInvoiceParamsSchema),
       (req, res) => invoiceQueryController.get(req, res)
+    );
+    this.app.get(
+      InvoiceRoutes.getByBusinessKey,
+      ValidationMiddleware.validateParams(getInvoiceByBusinessKeyParamsSchema),
+      (req, res) => invoiceQueryController.getByBusinessKey(req, res)
     );
     this.app.get(InvoiceRoutes.getAll, (req, res) => invoiceQueryController.getAll(req, res));
     this.app.put(

@@ -11,6 +11,14 @@ export class InvoiceRepositoryAdapter implements IInvoiceRepository {
     return record ? InvoiceDomainMapper.fromDatabase(record) : null;
   }
 
+  async findByBusinessKey(
+    year: number,
+    number: number,
+  ): Promise<InvoiceEntity | null> {
+    const record = await this.postgresRepo.findByBusinessKey(year, number);
+    return record ? InvoiceDomainMapper.fromDatabase(record) : null;
+  }
+
   async findLastRegistry(): Promise<InvoiceEntity | null> {
     const record = await this.postgresRepo.findLastRegistry();
     return record ? InvoiceDomainMapper.fromDatabase(record) : null;

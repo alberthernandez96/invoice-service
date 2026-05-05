@@ -50,6 +50,24 @@ export class InvoiceRepository {
     return { ...invoice, lines };
   }
 
+  async findByBusinessKey(
+    invoiceYear: number,
+    invoiceNumber: number,
+  ): Promise<InvoiceRecordWithLines | null> {
+    const cols = this.columns.join(", ");
+    const result = await this.pool.query(
+      `SELECT ${cols}
+       FROM ${this.tableName}
+       WHERE invoice_year = $1 AND invoice_number = $2
+       LIMIT 1`,
+      [invoiceYear, invoiceNumber],
+    );
+    const invoice = result.rows[0] as InvoiceRecord | undefined;
+    if (!invoice?.id) return null;
+    const lines = await this.lineRepo.findByInvoiceId(invoice.id);
+    return { ...invoice, lines };
+  }
+
   async getNextId(): Promise<number> {
     const result = await this.pool.query(
       `SELECT COALESCE(MAX(id), 0)::int + 1 AS next_id FROM ${this.tableName}`,
